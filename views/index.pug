@@ -1,18 +1,9 @@
-html
-    head
-        title OAuth Google
-    <style type="text/css">
-        include ../css/style.css
-    </style>
+extends layout
 
-    body
-      nav
-        ul
-          li
-            a(href='/auth/google') Log in with Google
-          li
-            a(href='/auth/logout') Log out
-
-      header
-        h1 OAuth Testing
-        h2 Homepage
+block content
+  .w3-container
+    if loggedIn
+      h4 You are logged in!
+    else
+      h4 You are not logged in!
+      h4 Please #[a(href="/login") Log In] to continue.
