@@ -9,4 +9,4 @@ const shipmentSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('shipment', shipmentSchema);
+module.exports = mongoose.model('Shipment', shipmentSchema);

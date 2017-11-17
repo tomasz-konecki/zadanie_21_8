@@ -50,7 +50,6 @@ module.exports = function profile() {
                     res.json('Address added to DB');
                 });
 
-
                 req.user.firstName = form.data.firstName;
                 req.user.surname = form.data.surname;
                 req.user.customData.streetAddress = form.data.streetAddress;

@@ -11,10 +11,9 @@ const Auth0Strategy = require('passport-auth0');
 const flash = require('connect-flash');
 const routes = require('./routes/index');
 const user = require('./routes/user');
-const mongoose = require('mongoose');
 const app = express();
 
-mongoose.connect('mongodb://localhost/usersDB');
+
 
 const strategy = new Auth0Strategy(
         {

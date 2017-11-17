@@ -6,10 +6,18 @@ const http = require('http');
 const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
 const port = normalizePort(process.env.PORT || '3000');
 const server = http.createServer(app);
+const mongoose = require('mongoose');
+const db = mongoose.connection;
 
 app.set('port', port);
 
 app.use('/profile', ensureLoggedIn, require('../profile')());
+
+mongoose.connect('mongodb://localhost/usersDB');
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+  console.log('Connected to database.');
+});
 
 server.listen(port);
 server.on('error', onError);
