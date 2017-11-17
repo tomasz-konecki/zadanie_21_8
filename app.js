@@ -11,9 +11,8 @@ const Auth0Strategy = require('passport-auth0');
 const flash = require('connect-flash');
 const routes = require('./routes/index');
 const user = require('./routes/user');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const app = express();
-mongoose.connect('mongodb://localhost/usersDB');
 
 const strategy = new Auth0Strategy(
         {
@@ -24,7 +23,6 @@ const strategy = new Auth0Strategy(
             process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
         },
         (accessToken, refreshToken, extraParams, profile, done) => {
-            // !!! sucess()
             // accessToken is the token to call Auth0 API (not needed in the most cases)
             // extraParams.id_token has the JSON Web Token
             // profile has all the information from the user
