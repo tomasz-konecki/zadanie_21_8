@@ -1,9 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
 const app = require('../app');
 const debug = require('debug')('nodejs-regular-webapp2:server');
 const http = require('http');

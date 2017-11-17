@@ -1,7 +1,7 @@
-const express = require('express'),
-  passport = require('passport'),
-  dotenv = require('dotenv').load(),
-  router = express.Router();
+const express = require('express');
+const passport = require('passport');
+const dotenv = require('dotenv').load();
+const router = express.Router();
 
 const env = {
   AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,

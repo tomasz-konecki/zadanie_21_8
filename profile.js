@@ -4,6 +4,7 @@ const csurf = require('csurf');
 const express = require('express');
 const extend = require('xtend');
 const forms = require('forms');
+const User = require('./models');
 
 const profileForm = forms.create({
     firstName: forms.fields.string({ required: true }),
@@ -37,6 +38,19 @@ module.exports = function profile() {
     router.all('/', (req, res) => {
         profileForm.handle(req, {
             success: (form) => {
+                const user = new User();
+
+                const address = new User();
+                address.firstName = req.user.firstName;
+                address.surname = req.user.surname;
+                address.save((err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.json('Address added to DB');
+                });
+
+
                 req.user.firstName = form.data.firstName;
                 req.user.surname = form.data.surname;
                 req.user.customData.streetAddress = form.data.streetAddress;

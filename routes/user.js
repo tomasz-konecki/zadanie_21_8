@@ -6,9 +6,9 @@ const express = require('express'),
 /* GET user profile. */
 router.get('/', ensureLoggedIn, (req, res, next) => {
     console.log(req.user);
-  res.render('user', {
-    user: req.user
-  });
+    res.render('user', {
+        user: req.user
+    });
 });
 
 router.get('/profile', ensureLoggedIn, (req, res, next) => {
