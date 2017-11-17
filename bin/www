@@ -4,12 +4,12 @@
  * Module dependencies.
  */
 
-const app = require('../app'),
-    debug = require('debug')('nodejs-regular-webapp2:server'),
-    http = require('http'),
-    ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn(),
-    port = normalizePort(process.env.PORT || '3000'),
-    server = http.createServer(app);
+const app = require('../app');
+const debug = require('debug')('nodejs-regular-webapp2:server');
+const http = require('http');
+const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
+const port = normalizePort(process.env.PORT || '3000');
+const server = http.createServer(app);
 
 app.set('port', port);
 
