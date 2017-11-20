@@ -4,27 +4,29 @@ const csurf = require('csurf');
 const express = require('express');
 const extend = require('xtend');
 const forms = require('forms');
+const fields = forms.fields;
 const User = require('./models');
 
 const profileForm = forms.create({
-    givenName: forms.fields.string({ required: true }),
-    surname: forms.fields.string({ required: true }),
-    streetAddress: forms.fields.string(),
-    city: forms.fields.string(),
-    state: forms.fields.string(),
-    zip: forms.fields.string()
+    givenName: fields.string({ required: true }),
+    surname: fields.string({ required: true }),
+    streetAddress: fields.string(),
+    city: fields.string({ required: true }),
+    state: fields.string(),
+    zip: fields.string()
 });
+
 
 const renderForm = (req, res, locals) => {
     res.render('profile', extend({
-        title: 'My Profile',
+        title: 'User Profile',
         csrfToken: req.csrfToken(),
-        givenName: req.user.givenName,
-        surname: req.user.surname,
-        streetAddress: req.user.customData.streetAddress,
-        city: req.user.customData.city,
-        state: req.user.customData.state,
-        zip: req.user.customData.zip
+        givenName: req.user.name.givenName,
+        surname: req.user.name.familyName,
+        streetAddress: '',
+        city: '',
+        state: '',
+        zip: ''
     },
         locals || {}));
 }
@@ -35,48 +37,63 @@ module.exports = function profile() {
         router.use(bodyParser.urlencoded({ extended: true }));
         router.use(csurf({ cookie: true }));
 
+
     router.all('/', (req, res) => {
         profileForm.handle(req, {
             success: (form) => {
-                const user = new User();
-                const address = new User();
 
-                address.givenName = req.user.givenName;
-                address.surname = req.user.surname;
+                const person = new User();
+                person.givenName = form.data.givenName;
+                person.surname = form.data.surname;
+                person.city = form.data.city;
                 
-                address.save((err) => {
+                person.save((err) => {
                     if (err) {
                         console.log(err);
                     }
-                    res.json('Address added to DB');
+                    console.log('\nDocument:\n' + person + '\n...added to DB\n');
                 });
-
-                req.user.givenName = form.data.givenName;
-                req.user.surname = form.data.surname;
-                req.user.customData.streetAddress = form.data.streetAddress;
-                req.user.customData.city = form.data.city;
-                req.user.customData.state = form.data.state;
-                req.user.customData.zip = form.data.zip;
-                req.user.customData.save();
-                req.user.save((err) => {
-                    if (err) {
-                        if (err.developerMessage){
-                            console.error(err);
-                        }
-                        renderForm(req, res, {
-                            errors: [{
-                                error: err.userMessage ||
-                                err.message || String(err)
-                            }]
-                        });
-                    } else {
-                        renderForm(req, res, {
-                            saved: true
-                        });
-                    }
+                renderForm(req, res, {
+                    saved: true,
+                    givenName: form.data.givenName,
+                    surname: form.data.surname,
+                    streetAddress: form.data.streetAddress,
+                    city: form.data.city,
+                    state: form.data.state,
+                    zip: form.data.zip
                 });
             },
-            empty: () => {
+
+            error: (form) => {
+                let errors = [];
+                if(!form.data.givenName || !form.data.givenName.trim()) {
+                    errors.push({
+                        error: 'First name is required'
+                    })
+                }
+                if(!form.data.surname || !form.data.surname.trim()) {
+                    errors.push({
+                        error: 'Surname is required'
+                    })
+                }
+                if(!form.data.city || !form.data.city.trim()) {
+                    errors.push({
+                        error: 'City is required'
+                    })
+                }
+
+                renderForm(req, res, {
+                    errors,
+                    givenName: form.data.givenName,
+                    surname: form.data.surname,
+                    streetAddress: form.data.streetAddress,
+                    city: form.data.city,
+                    state: form.data.state,
+                    zip: form.data.zip
+                });
+            },
+
+            empty: (form) => {
                 renderForm(req, res);
             }
         });

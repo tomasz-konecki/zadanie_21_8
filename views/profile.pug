@@ -9,7 +9,7 @@ html
         div.container
 
             div.page-header
-                h1 My Profile
+                h1 #{title}
 
             if errors
                 each error in errors
@@ -18,6 +18,7 @@ html
             if saved
                 div.alert.alert-success
                     span Your profile has been saved
+                    
             form.login-form.form-horizontal(method='post', role='form')
                 input(name='_csrf', type='hidden', value=csrfToken)
 
@@ -29,7 +30,7 @@ html
                         required=false,
                         name='givenName',
                         type='text',
-                        value=user.name.givenName)
+                        value=givenName)
                 div.form-group
                     label.col-sm-4 Last Name
                     div.col-sm-8
@@ -37,7 +38,7 @@ html
                         required=false,
                         name='surname',
                         type='text',
-                        value=user.name.familyName)
+                        value=surname)
                 div.form-group
                     label.col-sm-4 Street address
                     div.col-sm-8

@@ -8,10 +8,9 @@ const port = normalizePort(process.env.PORT || '3000');
 const server = http.createServer(app);
 const mongoose = require('mongoose');
 const db = mongoose.connection;
+mongoose.Promise = global.Promise;
 
 app.set('port', port);
-
-
 
 mongoose.connect('mongodb://localhost/usersDB');
 db.on('error', console.error.bind(console, 'connection error:'));
