@@ -7,7 +7,7 @@ const forms = require('forms');
 const User = require('./models');
 
 const profileForm = forms.create({
-    firstName: forms.fields.string({ required: true }),
+    givenName: forms.fields.string({ required: true }),
     surname: forms.fields.string({ required: true }),
     streetAddress: forms.fields.string(),
     city: forms.fields.string(),
@@ -19,7 +19,7 @@ const renderForm = (req, res, locals) => {
     res.render('profile', extend({
         title: 'My Profile',
         csrfToken: req.csrfToken(),
-        firstName: req.user.firstName,
+        givenName: req.user.givenName,
         surname: req.user.surname,
         streetAddress: req.user.customData.streetAddress,
         city: req.user.customData.city,
@@ -39,10 +39,11 @@ module.exports = function profile() {
         profileForm.handle(req, {
             success: (form) => {
                 const user = new User();
-
                 const address = new User();
-                address.firstName = req.user.firstName;
+
+                address.givenName = req.user.givenName;
                 address.surname = req.user.surname;
+                
                 address.save((err) => {
                     if (err) {
                         console.log(err);
@@ -50,7 +51,7 @@ module.exports = function profile() {
                     res.json('Address added to DB');
                 });
 
-                req.user.firstName = form.data.firstName;
+                req.user.givenName = form.data.givenName;
                 req.user.surname = form.data.surname;
                 req.user.customData.streetAddress = form.data.streetAddress;
                 req.user.customData.city = form.data.city;

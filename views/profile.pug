@@ -27,9 +27,9 @@ html
                         input.form-control(
                         placeholder='Your first name',
                         required=false,
-                        name='firstName',
+                        name='givenName',
                         type='text',
-                        value=firstName)
+                        value=user.name.givenName)
                 div.form-group
                     label.col-sm-4 Last Name
                     div.col-sm-8
@@ -37,7 +37,7 @@ html
                         required=false,
                         name='surname',
                         type='text',
-                        value=surname)
+                        value=user.name.familyName)
                 div.form-group
                     label.col-sm-4 Street address
                     div.col-sm-8

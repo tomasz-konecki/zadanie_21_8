@@ -12,14 +12,15 @@ router.get('/', ensureLoggedIn, (req, res, next) => {
 });
 
 router.get('/profile', ensureLoggedIn, (req, res, next) => {
-  res.render('profile'); 
+
+    res.render('profile', { user: req.user }); 
 });
 
 router.post('/profile', ensureLoggedIn, (req, res, next) => {
-    const {firstName, surname, streetAddress, city, state, zip} = req.body;
+    const {givenName, surname, streetAddress, city, state, zip} = req.body;
     let errors = [];
 
-    if(!firstName || !firstName.trim()) {
+    if(!givenName || !givenName.trim()) {
         errors.push({
             error: 'First name is required'
         })
@@ -51,7 +52,7 @@ router.post('/profile', ensureLoggedIn, (req, res, next) => {
     }
 
     res.render('profile', {
-        firstName,
+        givenName: req.user.name.givenName,
         surname,
         streetAddress,
         city,

@@ -11,8 +11,8 @@ const Auth0Strategy = require('passport-auth0');
 const flash = require('connect-flash');
 const routes = require('./routes/index');
 const user = require('./routes/user');
+const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
 const app = express();
-
 
 
 const strategy = new Auth0Strategy(
@@ -84,6 +84,7 @@ app.use((req, res, next) => {
 
 app.use('/', routes);
 app.use('/user', user);
+app.use('/profile', ensureLoggedIn, require('./profile')());
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
