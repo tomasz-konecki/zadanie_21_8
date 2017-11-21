@@ -37,11 +37,9 @@ module.exports = function profile() {
         router.use(bodyParser.urlencoded({ extended: true }));
         router.use(csurf({ cookie: true }));
 
-
     router.all('/', (req, res) => {
         profileForm.handle(req, {
             success: (form) => {
-
                 const person = new User();
                 person.givenName = form.data.givenName;
                 person.surname = form.data.surname;
