@@ -5,7 +5,7 @@ const express = require('express');
 const extend = require('xtend');
 const forms = require('forms');
 const fields = forms.fields;
-const User = require('./models');
+const User = require('./models/models');
 
 const profileForm = forms.create({
     givenName: fields.string({ required: true }),
